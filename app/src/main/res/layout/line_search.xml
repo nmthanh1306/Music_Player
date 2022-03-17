@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivSearchSong"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tvSearchSongName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="7dp"
+        android:layout_toEndOf="@id/ivSearchSong"
+        android:text="Song Name"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:ellipsize="end"
+        android:maxWidth="250dp"
+        android:singleLine="true" />
+    <TextView
+        android:id="@+id/tvSearchSinger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="7dp"
+        android:layout_toEndOf="@id/ivSearchSong"
+        android:layout_below="@id/tvSearchSongName"
+        android:text="Singer"
+        android:textColor="#6e6d6d"
+        android:textSize="18sp"
+        android:ellipsize="end"
+        android:maxWidth="250dp"
+        android:singleLine="true" />
+    <ImageView
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/ivSearchFavourite"
+        android:src="@drawable/iconlove"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+    <ImageView
+        android:id="@+id/ivAddToMyPlaylist"
+        android:src="@drawable/ic_action_playlist_add"
+        android:layout_marginEnd="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+</RelativeLayout>

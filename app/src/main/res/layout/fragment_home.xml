@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:fillViewport="true"
+    tools:context=".fragment.HomeFragment" >
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentBanner"
+            android:name="com.is1423.music_player.fragment.BannerFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.fragment.app.FragmentContainerView>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentPlaylist"
+            android:name="com.is1423.music_player.fragment.PlaylistFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.fragment.app.FragmentContainerView>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentThemeAndType"
+            android:name="com.is1423.music_player.fragment.ThemeAndTypeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.fragment.app.FragmentContainerView>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentAlbumHot"
+            android:name="com.is1423.music_player.fragment.AlbumHotFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentHotSong"
+            android:name="com.is1423.music_player.fragment.HotSongFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.fragment.app.FragmentContainerView>
+    </LinearLayout>
+
+</ScrollView>

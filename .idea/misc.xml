@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/drawable/custom_background_banner.xml" value="0.23703703703703705" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/drawable/custom_background_button_black.xml" value="0.26205128205128203" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/drawable/custom_background_song_player.xml" value="0.2" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/drawable/custom_popup.xml" value="0.26614583333333336" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/activity_all_album.xml" value="0.12760416666666666" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/activity_all_playlist.xml" value="0.17083333333333334" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/activity_all_theme.xml" value="0.17760416666666667" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/activity_all_type_by_theme.xml" value="0.12760416666666666" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/activity_list_song.xml" value="0.16799999999999998" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/activity_main.xml" value="0.17552083333333332" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/activity_song_player.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_album_hot.xml" value="0.16510416666666666" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_banner.xml" value="0.21481481481481482" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_hot_song.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_list_all_song.xml" value="0.21875" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_music_disc.xml" value="0.22826086956521738" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_playlist.xml" value="0.176" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_search.xml" value="0.10520833333333333" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_theme_and_type.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/fragment_user.xml" value="0.264" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_album.xml" value="0.1" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_all_album.xml" value="0.12760416666666666" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_all_playlist.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_all_theme.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_all_type_by_theme.xml" value="0.12760416666666666" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_banner.xml" value="0.264" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_hot_song.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_list_song.xml" value="0.2" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_my_playlist.xml" value="0.11145833333333334" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_playlist.xml" value="0.176" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_search.xml" value="0.2" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_song_player.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/style_login.xml" value="0.189873417721519" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/style_register.xml" value="0.2" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/menu/search_view.xml" value="0.2" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music_Player/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music_Player/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music_Player/app/src/main/res/layout/fragment_search.xml" value="0.264" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

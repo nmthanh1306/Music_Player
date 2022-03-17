@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".fragment.PlaylistFragment">
+
+    <TextView
+        android:id="@+id/textViewTitlePlaylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:text="HOT PLAYLIST"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+
+    <ListView
+        android:id="@+id/listViewPlaylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTitlePlaylist" />
+
+    <TextView
+        android:id="@+id/tvViewMorePlaylist"
+        android:layout_below="@id/listViewPlaylist"
+        android:textSize="19sp"
+        android:text="Xem thêm Playlist"
+        android:drawablePadding="10dp"
+        android:background="#c9c7c7"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#0a0a0a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:drawableLeftCompat="@drawable/iconmoreplaylist" />
+</RelativeLayout>

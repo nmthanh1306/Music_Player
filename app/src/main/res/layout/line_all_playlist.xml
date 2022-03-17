@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="5dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivAllPlaylist"
+            android:src="@drawable/ic_launcher_background"
+            android:scaleType="centerCrop"
+            android:layout_width="180dp"
+            android:layout_height="180dp"/>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tvAllPlaylistName"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:lines="2"
+        android:maxWidth="200dp"
+        android:gravity="left"
+        android:text="Nhac Hot"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvAllPlaylistSinger"
+        android:text="Nhiều Ca Sĩ"
+        android:textSize="13sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

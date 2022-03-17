@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="450dp"
+    android:layout_gravity="center"
+
+    android:background="@drawable/custom_popup"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_action_close" />
+
+    <ImageView
+        android:id="@+id/iconApp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/music_player_icon" />
+
+    <EditText
+        android:id="@+id/edtUsername"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/iconApp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="#bdc3c7"
+        android:drawableStart="@drawable/ic_action_username"
+        android:textSize="20sp"
+        android:hint="Tên đăng nhập" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/edtUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="#bdc3c7"
+        android:drawableStart="@drawable/ic_action_password"
+        android:hint="Mật khẩu"
+        android:inputType="textPassword"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnLoginPopup"
+        android:background="@drawable/custom_background_button_black"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/edtPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Đăng nhập" />
+
+</RelativeLayout>

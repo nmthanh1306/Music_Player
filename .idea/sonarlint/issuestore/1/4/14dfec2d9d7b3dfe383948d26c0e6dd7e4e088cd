@@ -1,0 +1,18 @@
+
+{
+java:S14503"`Remove the "coordinatorLayout" field and declare it as a local variable in the relevant methods.(†šÒÓúÿÿÿÿ
+—
+java:S1186h"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(úåÈ
+—
+java:S1186|"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(úåÈ
+˜
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(úåÈ
+
+java:S1186©"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ş°•œıÿÿÿÿ
+R	java:S125"<This block of commented-out lines of code should be removed.(à…»Ó
+R	java:S125¡"<This block of commented-out lines of code should be removed.(ùŠ¿°
+R	java:S125×"<This block of commented-out lines of code should be removed.(úÒ†ï
+N
+java:S3972Ş"7Move this "if" to a new line or add the missing "else".(Å„èê
+D
+java:S1604æ"(Make this anonymous inner class a lambda(«¾³Äùÿÿÿÿ

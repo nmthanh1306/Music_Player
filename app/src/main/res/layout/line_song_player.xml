@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="1"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:layout_margin="10dp"
+            android:id="@+id/tvIndexSongPlayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:ellipsize="end"
+            android:maxWidth="250dp"
+            android:singleLine="true"
+            android:text="Song Name"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:layout_toRightOf="@id/tvIndexSongPlayer"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvNameSongPlayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tvSingerNameSongPlayer"
+            android:layout_below="@id/tvNameSongPlayer"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tvIndexSongPlayer"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Singer"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</RelativeLayout>

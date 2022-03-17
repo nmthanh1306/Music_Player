@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="5dp"
+    android:elevation="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvIndexSong"
+            android:text="1"
+            android:layout_margin="15dp"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tvSongName"
+            android:textSize="20sp"
+            android:text="Song Name"
+            android:textColor="@color/black"
+            android:layout_toEndOf="@id/tvIndexSong"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxWidth="250dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tvSingerName"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="#979797"
+            android:textSize="20sp"
+            android:text="Singer"
+            android:layout_toRightOf="@id/tvIndexSong"
+            android:layout_below="@id/tvSongName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:src="@drawable/iconlove"
+            android:id="@+id/ivFavouriteInListSong"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+        <ImageView
+            android:id="@+id/ivAddToMyPlaylist"
+            android:src="@drawable/ic_action_playlist_add"
+            android:layout_marginEnd="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

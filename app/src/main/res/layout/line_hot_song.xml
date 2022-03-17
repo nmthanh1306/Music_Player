@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivHotSong"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="3dp"
+        android:scaleType="fitXY">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/tvHotSongName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="7dp"
+        android:textSize="18sp"
+        android:text="Ten bai hat"
+        android:layout_toEndOf="@id/ivHotSong"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#363636">
+    </TextView>
+    <TextView
+        android:id="@+id/tvHotSongSingerName"
+        android:singleLine="true"
+        android:layout_toEndOf="@id/ivHotSong"
+        android:layout_below="@+id/tvHotSongName"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="5dp"
+        android:text="Ca si"
+        android:textSize="18sp"
+        android:textColor="#8c8a8a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/ivNumOfFavourite"
+        android:src="@drawable/iconlove"
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+
+    <ImageView
+        android:id="@+id/ivAddToMyPlaylist"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="50dp"
+        android:src="@drawable/ic_action_playlist_add" />
+
+</RelativeLayout>

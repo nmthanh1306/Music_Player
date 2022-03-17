@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/imageViewBackgroundBanner"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+    <View
+        android:background="@drawable/custom_background_banner"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <RelativeLayout
+        android:id="@+id/relative1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageViewBackgroundBanner">
+
+        <ImageView
+            android:id="@+id/imageViewSongBanner"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="2dp" />
+
+        <TextView
+            android:id="@+id/txtTitleSongBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/imageViewSongBanner"
+            android:layout_toEndOf="@id/imageViewSongBanner"
+            android:text="Ten bai hat"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtTitleSongBanner"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@id/imageViewSongBanner">
+
+            <TextView
+                android:id="@+id/txtContentSongBanner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:maxLines="2"
+                android:text="Moi ban thuong thuc ca khuc dam chat love rap cua ca si Binz va Touliver"
+                android:textColor="#fffdfc"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>
