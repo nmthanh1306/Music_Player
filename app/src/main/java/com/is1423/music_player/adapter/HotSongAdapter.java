@@ -3,6 +3,7 @@ package com.is1423.music_player.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.is1423.music_player.R;
 import com.is1423.music_player.activity.SongPlayerActivity;
-import com.is1423.music_player.model.response.MyFavouriteSongResponseDTO;
 import com.is1423.music_player.model.response.SongResponseDTO;
 import com.is1423.music_player.service.DataServiceMyFavouriteSong;
-import com.is1423.music_player.service.DataServiceSong;
 import com.is1423.music_player.service.intagration.ApiServiceMyFavouriteSong;
-import com.is1423.music_player.service.intagration.ApiServiceSong;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,14 +32,14 @@ public class HotSongAdapter extends RecyclerView.Adapter<HotSongAdapter.ViewHold
 
     Context context;
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor prefEditor;
+    private String userId;
+
+    List<SongResponseDTO> hotSongs;
 
     public HotSongAdapter(Context context, List<SongResponseDTO> hotSongs) {
         this.context = context;
         this.hotSongs = hotSongs;
     }
-
-    List<SongResponseDTO> hotSongs;
 
     @NonNull
     @Override
@@ -58,6 +57,11 @@ public class HotSongAdapter extends RecyclerView.Adapter<HotSongAdapter.ViewHold
         holder.tvSongName.setText(song.getSongName());
         holder.tvSingerName.setText(song.getSinger());
         Picasso.with(context).load(song.getSongImage()).into(holder.ivHotSong);
+        if (song.isUserFavourite()) {
+            holder.ivNumOfFavourite.setImageResource(R.drawable.iconloved);
+        } else {
+            holder.ivNumOfFavourite.setImageResource(R.drawable.iconlove);
+        }
     }
 
     @Override
@@ -71,6 +75,7 @@ public class HotSongAdapter extends RecyclerView.Adapter<HotSongAdapter.ViewHold
         private TextView tvSingerName;
         private ImageView ivHotSong;
         private ImageView ivNumOfFavourite;
+        private ImageView ivAddToMyPlaylist;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,11 +85,19 @@ public class HotSongAdapter extends RecyclerView.Adapter<HotSongAdapter.ViewHold
 
         private void bindingView(View itemView) {
             sharedPreferences = itemView.getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-            prefEditor = sharedPreferences.edit();
+            userId = sharedPreferences.getString("userId", null);
+
             tvSongName = itemView.findViewById(R.id.tvHotSongName);
             tvSingerName = itemView.findViewById(R.id.tvHotSongSingerName);
             ivHotSong = itemView.findViewById(R.id.ivHotSong);
             ivNumOfFavourite = itemView.findViewById(R.id.ivNumOfFavourite);
+            ivAddToMyPlaylist = itemView.findViewById(R.id.ivAddToMyPlaylist);
+
+            if (userId == null) {
+                ivNumOfFavourite.setVisibility(View.GONE);
+                ivAddToMyPlaylist.setVisibility(View.GONE);
+            }
+
         }
 
         private void bindingAction(View itemView) {
@@ -99,24 +112,35 @@ public class HotSongAdapter extends RecyclerView.Adapter<HotSongAdapter.ViewHold
         }
 
         private void onClickImageViewFavourite(View view) {
-            String userId = sharedPreferences.getString("userId", null);
-
-            ivNumOfFavourite.setImageResource(R.drawable.iconloved);
             DataServiceMyFavouriteSong serviceSong = ApiServiceMyFavouriteSong.getService();
-            Call<Void> callBack = serviceSong.updateNumberOfFavourite(
+            Call<Map<String, Boolean>> callBack = serviceSong.updateNumberOfFavourite(
                     hotSongs.get(getLayoutPosition()).getSongId(), userId);
-            callBack.enqueue(new Callback<Void>() {
+            callBack.enqueue(new Callback<Map<String, Boolean>>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(Call<Map<String, Boolean>> call, Response<Map<String, Boolean>> response) {
                     if (response.code() == 200) {
-                        Toast.makeText(context, "Đã thích", Toast.LENGTH_SHORT).show();
+                        Map<String, Boolean> map = response.body();
+                        assert map != null;
+                        for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+                            String k = entry.getKey();
+                            Boolean value = entry.getValue();
+                            if (k.equals("result")) {
+                                if (value) {
+                                    Toast.makeText(context, "Đã thích", Toast.LENGTH_SHORT).show();
+                                    ivNumOfFavourite.setImageResource(R.drawable.iconloved);
+                                } else {
+                                    ivNumOfFavourite.setImageResource(R.drawable.iconlove);
+                                }
+                            }
+                        }
                     } else {
                         Toast.makeText(context, "Lỗi!", Toast.LENGTH_SHORT).show();
+                        ivNumOfFavourite.setImageResource(R.drawable.iconlove);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(Call<Map<String, Boolean>> call, Throwable t) {
 
                 }
             });

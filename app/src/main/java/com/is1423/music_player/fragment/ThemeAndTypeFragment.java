@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import lombok.SneakyThrows;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -109,54 +110,59 @@ public class ThemeAndTypeFragment extends Fragment {
         callBackTheme.enqueue(new Callback<List<ThemeResponseDTO>>() {
             @Override
             public void onResponse(Call<List<ThemeResponseDTO>> call, Response<List<ThemeResponseDTO>> response) {
-                themeDTOs = response.body();
+                if (response.code() == 200) {
+                    themeDTOs = response.body();
 
-                Log.d("themeResponse", "=================Is Running==================");
+                    Log.d("themeResponse", "=================Is Running==================");
 
-                LinearLayout linearLayout = new LinearLayout(getActivity());
-                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    LinearLayout linearLayout = new LinearLayout(getActivity());
+                    linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-                LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(580, 250);
-                layout.setMargins(10, 20, 10, 30);
-
-                for (int i = 0; i < themeDTOs.size(); i++) {
-                    CardView cardView = new CardView(getActivity());
-                    cardView.setRadius(10);
-                    ImageView imageView = new ImageView(getActivity());
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    if (themeDTOs.get(i).getThemeImage() != null) {
-                        Picasso.with(getActivity()).load(themeDTOs.get(i).getThemeImage()).into(imageView);
+                    LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(580, 250);
+                    layout.setMargins(10, 20, 10, 30);
+                    if (themeDTOs != null) {
+                        for (int i = 0; i < themeDTOs.size(); i++) {
+                            CardView cardView = new CardView(getActivity());
+                            cardView.setRadius(10);
+                            ImageView imageView = new ImageView(getActivity());
+                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                            if (themeDTOs.get(i).getThemeImage() != null) {
+                                Picasso.with(getActivity()).load(themeDTOs.get(i).getThemeImage()).into(imageView);
+                            }
+                            cardView.setLayoutParams(layout);
+                            cardView.addView(imageView);
+                            linearLayout.addView(cardView);
+                            int finalI = i;
+                            imageView.setOnClickListener(view -> {
+                                Intent intent = new Intent(getActivity(), AllTypeByThemeActivity.class);
+                                intent.putExtra("theme", themeDTOs.get(finalI));
+                                startActivity(intent);
+                            });
+                        }
                     }
-                    cardView.setLayoutParams(layout);
-                    cardView.addView(imageView);
-                    linearLayout.addView(cardView);
-                    int finalI = i;
-                    imageView.setOnClickListener(view -> {
-                        Intent intent = new Intent(getActivity(), AllTypeByThemeActivity.class);
-                        intent.putExtra("theme", themeDTOs.get(finalI));
-                        startActivity(intent);
-                    });
-                }
 
-                for (int j = 0; j < typeDTOs.size(); j++) {
-                    CardView cardView = new CardView(getActivity());
-                    cardView.setRadius(10);
-                    ImageView imageView = new ImageView(getActivity());
-                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    if (typeDTOs.get(j).getTypeImage() != null) {
-                        Picasso.with(getActivity()).load(typeDTOs.get(j).getTypeImage()).into(imageView);
+                    if (typeDTOs != null) {
+                        for (int j = 0; j < typeDTOs.size(); j++) {
+                            CardView cardView = new CardView(getActivity());
+                            cardView.setRadius(10);
+                            ImageView imageView = new ImageView(getActivity());
+                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                            if (typeDTOs.get(j).getTypeImage() != null) {
+                                Picasso.with(getActivity()).load(typeDTOs.get(j).getTypeImage()).into(imageView);
+                            }
+                            cardView.setLayoutParams(layout);
+                            cardView.addView(imageView);
+                            linearLayout.addView(cardView);
+                            int finalJ = j;
+                            imageView.setOnClickListener(view -> {
+                                Intent intent = new Intent(getActivity(), ListSongActivity.class);
+                                intent.putExtra("typeId", typeDTOs.get(finalJ));
+                                startActivity(intent);
+                            });
+                        }
                     }
-                    cardView.setLayoutParams(layout);
-                    cardView.addView(imageView);
-                    linearLayout.addView(cardView);
-                    int finalJ = j;
-                    imageView.setOnClickListener(view -> {
-                        Intent intent = new Intent(getActivity(), ListSongActivity.class);
-                        intent.putExtra("typeId", typeDTOs.get(finalJ));
-                        startActivity(intent);
-                    });
+                    horizontalScrollView.addView(linearLayout);
                 }
-                horizontalScrollView.addView(linearLayout);
             }
 
             @Override
@@ -175,8 +181,6 @@ public class ThemeAndTypeFragment extends Fragment {
             public void onResponse(Call<List<TypeResponseDTO>> call, Response<List<TypeResponseDTO>> response) {
 
                 typeDTOs = response.body();
-
-                Log.d("typeResponse", "=================Is Running==================");
             }
 
             @Override

@@ -3,12 +3,15 @@ package com.is1423.music_player.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
 import com.is1423.music_player.R;
+import com.is1423.music_player.adapter.MainViewPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +57,15 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            onResume();
+//            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         }
     }
 

@@ -3,6 +3,7 @@ package com.is1423.music_player.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.is1423.music_player.R;
 import com.is1423.music_player.activity.SongPlayerActivity;
-import com.is1423.music_player.model.response.MyFavouriteSongResponseDTO;
 import com.is1423.music_player.model.response.SongResponseDTO;
 import com.is1423.music_player.service.DataServiceMyFavouriteSong;
-import com.is1423.music_player.service.DataServiceSong;
 import com.is1423.music_player.service.intagration.ApiServiceMyFavouriteSong;
-import com.is1423.music_player.service.intagration.ApiServiceSong;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +33,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     private Context context;
     private List<SongResponseDTO> songs;
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor prefEditor;
+
+    private String userId;
 
     public SearchAdapter(Context context, List<SongResponseDTO> songs) {
         this.context = context;
@@ -55,6 +55,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.tvSearchSongName.setText(song.getSongName());
         holder.tvSearchSinger.setText(song.getSinger());
         Picasso.with(context).load(song.getSongImage()).into(holder.ivSearchSong);
+
+        if(song.isUserFavourite()){
+            holder.ivSearchFavourite.setImageResource(R.drawable.iconloved);
+        }else{
+            holder.ivSearchFavourite.setImageResource(R.drawable.iconlove);
+        }
     }
 
     @Override
@@ -68,6 +74,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         private TextView tvSearchSinger;
         private ImageView ivSearchSong;
         private ImageView ivSearchFavourite;
+        private ImageView ivAddToMyPlaylist;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,38 +90,57 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             });
 
             ivSearchFavourite.setOnClickListener(view -> {
-                String userId = sharedPreferences.getString("userId", null);
-                ivSearchFavourite.setImageResource(R.drawable.iconloved);
+
                 DataServiceMyFavouriteSong serviceSong = ApiServiceMyFavouriteSong.getService();
-                Call<Void> callback
+                Call<Map<String, Boolean>> callback
                         = serviceSong.updateNumberOfFavourite(songs.get(getPosition()).getSongId(), userId);
-                callback.enqueue(new Callback<Void>() {
+                callback.enqueue(new Callback<Map<String, Boolean>>() {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    public void onResponse(Call<Map<String, Boolean>> call, Response<Map<String, Boolean>> response) {
+
                         if (response.code() == 200) {
-                            Toast.makeText(context, "Đã thích", Toast.LENGTH_SHORT).show();
+                            Map<String, Boolean> map = response.body();
+                            assert map != null;
+                            for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+                                String k = entry.getKey();
+                                Boolean value = entry.getValue();
+                                if (k.equals("result")) {
+                                    if (value) {
+                                        Toast.makeText(context, "Đã thích", Toast.LENGTH_SHORT).show();
+                                        ivSearchFavourite.setImageResource(R.drawable.iconloved);
+                                    } else {
+                                        ivSearchFavourite.setImageResource(R.drawable.iconlove);
+                                    }
+                                }
+                            }
                         } else {
                             Toast.makeText(context, "Lỗi!", Toast.LENGTH_SHORT).show();
+                            ivSearchFavourite.setImageResource(R.drawable.iconlove);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(Call<Map<String, Boolean>> call, Throwable t) {
 
                     }
                 });
-                ivSearchFavourite.setEnabled(false);
             });
         }
 
         private void bindingView(View itemView) {
             sharedPreferences = itemView.getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-            prefEditor = sharedPreferences.edit();
+            userId = sharedPreferences.getString("userId", null);
 
             tvSearchSinger = itemView.findViewById(R.id.tvSearchSinger);
             tvSearchSongName = itemView.findViewById(R.id.tvSearchSongName);
             ivSearchFavourite = itemView.findViewById(R.id.ivSearchFavourite);
             ivSearchSong = itemView.findViewById(R.id.ivSearchSong);
+            ivAddToMyPlaylist = itemView.findViewById(R.id.ivAddToMyPlaylist);
+            if (userId == null) {
+                ivSearchFavourite.setVisibility(View.GONE);
+                ivAddToMyPlaylist.setVisibility(View.GONE);
+            }
+
         }
     }
 }

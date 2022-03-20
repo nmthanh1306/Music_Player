@@ -1,7 +1,10 @@
 package com.is1423.music_player.model.response;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.RequiresApi;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +31,9 @@ public class SongResponseDTO implements Parcelable { // gui du lieu object hoac 
 
     private int favourite;
 
+    private boolean userFavourite;
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected SongResponseDTO(Parcel in) {
         if (in.readByte() == 0) {
             songId = null;
@@ -42,9 +48,11 @@ public class SongResponseDTO implements Parcelable { // gui du lieu object hoac 
         singer = in.readString();
         linkSong = in.readString();
         favourite = in.readInt();
+        userFavourite = in.readBoolean();
     }
 
     public static final Creator<SongResponseDTO> CREATOR = new Creator<SongResponseDTO>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public SongResponseDTO createFromParcel(Parcel in) {
             return new SongResponseDTO(in);
@@ -77,5 +85,6 @@ public class SongResponseDTO implements Parcelable { // gui du lieu object hoac 
         parcel.writeString(singer);
         parcel.writeString(linkSong);
         parcel.writeInt(favourite);
+        parcel.writeByte((byte) (userFavourite ? 1 : 0));
     }
 }

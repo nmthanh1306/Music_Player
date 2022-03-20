@@ -1,5 +1,7 @@
 package com.is1423.music_player.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,6 +45,8 @@ public class SearchFragment extends Fragment {
     private RecyclerView recyclerViewSearch;
     private TextView tvNoDataSearch;
     private SearchAdapter adapter;
+
+    private SharedPreferences sharedPreferences;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,7 +98,17 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            onResume();
+        }
+    }
+
     private void bindingView() {
+        sharedPreferences = getContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+
         toolbarSearch = view.findViewById(R.id.toolBarSearch);
         recyclerViewSearch = view.findViewById(R.id.recyclerSearch);
         tvNoDataSearch = view.findViewById(R.id.tvNoDataSearch);
@@ -126,21 +140,22 @@ public class SearchFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void searchSongByNameOrSinger(String fulltext){
+    private void searchSongByNameOrSinger(String fulltext) {
         DataServiceSong serviceSong = ApiServiceSong.getService();
-        Call<List<SongResponseDTO>> callback = serviceSong.searchSongByNameOrSinger(fulltext);
+        String userId = sharedPreferences.getString("userId", null);
+        Call<List<SongResponseDTO>> callback = serviceSong.searchSongByNameOrSinger(fulltext, userId);
         callback.enqueue(new Callback<List<SongResponseDTO>>() {
             @Override
             public void onResponse(Call<List<SongResponseDTO>> call, Response<List<SongResponseDTO>> response) {
                 List<SongResponseDTO> songs = response.body();
-                if(songs.size() > 0){
-                    adapter = new SearchAdapter(getActivity(),songs);
+                if (songs.size() > 0) {
+                    adapter = new SearchAdapter(getActivity(), songs);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                     recyclerViewSearch.setLayoutManager(layoutManager);
                     recyclerViewSearch.setAdapter(adapter);
                     tvNoDataSearch.setVisibility(View.GONE);
                     recyclerViewSearch.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     recyclerViewSearch.setVisibility(View.GONE);
                     tvNoDataSearch.setVisibility(View.VISIBLE);
                 }

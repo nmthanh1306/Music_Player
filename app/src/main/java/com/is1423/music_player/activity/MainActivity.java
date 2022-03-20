@@ -1,13 +1,9 @@
 package com.is1423.music_player.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.is1423.music_player.R;
@@ -20,8 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindingAction() {
-        MainViewPagerAdapter mainViewPagerAdapter =new MainViewPagerAdapter(getSupportFragmentManager());
-        mainViewPagerAdapter.addFragment(new HomeFragment(),"Trang chủ");
-        mainViewPagerAdapter.addFragment(new SearchFragment(),"Tìm kiếm");
-        mainViewPagerAdapter.addFragment(new UserFragment(),"Cá nhân");
+        MainViewPagerAdapter mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
+        mainViewPagerAdapter.addFragment(new HomeFragment(), "Trang chủ");
+        mainViewPagerAdapter.addFragment(new SearchFragment(), "Tìm kiếm");
+        mainViewPagerAdapter.addFragment(new UserFragment(), "Cá nhân");
         viewPager.setAdapter(mainViewPagerAdapter);
+//        viewPager.getAdapter().notifyDataSetChanged();
+//        viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.icontrangchu);
         tabLayout.getTabAt(1).setIcon(R.drawable.iconsearch);

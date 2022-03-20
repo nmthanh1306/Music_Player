@@ -17,6 +17,7 @@ import com.is1423.music_player.service.intagration.ApiServiceAdvertisement;
 import com.is1423.music_player.service.DataServiceAdvertisement;
 
 import java.util.List;
+import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
@@ -110,7 +111,7 @@ public class BannerFragment extends Fragment {
                 runnable = () -> {
                     currentItem = viewPager.getCurrentItem();
                     currentItem++;
-                    if(currentItem >= viewPager.getAdapter().getCount()){
+                    if(currentItem >= Objects.requireNonNull(viewPager.getAdapter()).getCount()){
                         currentItem = 0;
                     }
                     viewPager.setCurrentItem(currentItem,true);

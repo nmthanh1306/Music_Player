@@ -43,11 +43,12 @@ public class Endpoint {
 
         public static final String UPDATE_NUM_OF_FAVOURITE = SONG_ENDPOINT + "/favourite/{id}";
         public static final String SEARCH_FULLTEXT_BY_SONG_OR_SINGER = SONG_ENDPOINT + "/search";
+        public static final String GET_FAVOURITE_SONGS_BY_USER = SONG_ENDPOINT + "/favourite/user";
     }
 
     public class User{
         public static final String USER_ENDPOINT = "/music-player/api/user";
-        public static final String CREATE_USER = "/music-player/api/user/create";
-        public static final String LOGIN = "/music-player/api/user/authenticate";
+        public static final String CREATE_USER = USER_ENDPOINT + "/create";
+        public static final String LOGIN = USER_ENDPOINT + "/authenticate";
     }
 }

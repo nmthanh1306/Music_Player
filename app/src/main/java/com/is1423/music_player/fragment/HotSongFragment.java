@@ -1,11 +1,14 @@
 package com.is1423.music_player.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,8 @@ public class HotSongFragment extends Fragment {
     private HotSongAdapter hotSongAdapter;
     private String mParam1;
     private String mParam2;
+
+    private SharedPreferences sharedPreferences;
 
     public HotSongFragment() {
         // Required empty public constructor
@@ -84,11 +89,13 @@ public class HotSongFragment extends Fragment {
 
     private void getData() {
         DataServiceSong serviceSong = ApiServiceSong.getService();
-        Call<List<SongResponseDTO>> callBack = serviceSong.getTopFavouriteSongs();
+        String userId = sharedPreferences.getString("userId",null);
+        Call<List<SongResponseDTO>> callBack = serviceSong.getTopFavouriteSongs(userId);
         callBack.enqueue(new Callback<List<SongResponseDTO>>() {
             @Override
             public void onResponse(Call<List<SongResponseDTO>> call, Response<List<SongResponseDTO>> response) {
                 List<SongResponseDTO> hotSongs = response.body();
+                Log.d("fav",userId + hotSongs.get(0).getSongName() + hotSongs.get(0).isUserFavourite());
                 //Log.d("hot song", hotSongs.get(0).getSongName());
                 hotSongAdapter = new HotSongAdapter(getActivity(), hotSongs);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -106,5 +113,6 @@ public class HotSongFragment extends Fragment {
 
     private void bindingView() {
         recyclerViewHotSong = view.findViewById(R.id.recyclerViewHotSong);
+        sharedPreferences = getContext().getSharedPreferences("userInfo",Context.MODE_PRIVATE);
     }
 }

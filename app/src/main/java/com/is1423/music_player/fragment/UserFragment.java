@@ -2,6 +2,7 @@ package com.is1423.music_player.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.is1423.music_player.R;
+import com.is1423.music_player.activity.ListSongActivity;
 import com.is1423.music_player.model.request.UserRequestDTO;
 import com.is1423.music_player.model.response.UserResponseDTO;
 import com.is1423.music_player.service.DataServiceUser;
@@ -104,6 +106,18 @@ public class UserFragment extends Fragment {
         btnLogin.setOnClickListener(this::onClickBtnLogin);
         btnRegister.setOnClickListener(this::onClickBtnRegister);
         btnLogout.setOnClickListener(this::onClickBtnLogout);
+        tvMyPlaylist.setOnClickListener(this::onClickTextMyPlaylist);
+        tvMyFavouriteSong.setOnClickListener(this::onClickTextMyFavouriteSong);
+    }
+
+    private void onClickTextMyFavouriteSong(View view) {
+        Intent intent = new Intent(getActivity(), ListSongActivity.class);
+        String userId = sharedPreferences.getString("userId", null);
+        intent.putExtra("myFavouriteSong", userId);
+        startActivity(intent);
+    }
+
+    private void onClickTextMyPlaylist(View view) {
     }
 
     private void onClickBtnLogout(View view) {
@@ -242,15 +256,9 @@ public class UserFragment extends Fragment {
         btnRegister = view.findViewById(R.id.btnRegister);
 
         String username = sharedPreferences.getString("username", null);
-        String userId = sharedPreferences.getString("userId",null);
-        setDataAfterLogin(username,userId);
+        String userId = sharedPreferences.getString("userId", null);
+        setDataAfterLogin(username, userId);
     }
-
-    private boolean isExistingUser() {
-        // TODO: 3/16/2022
-        return false;
-    }
-
 
     private void showInfoOnProfile() {
         btnLogin.setVisibility(View.GONE);
@@ -274,7 +282,7 @@ public class UserFragment extends Fragment {
     private void setDataAfterLogin(String username, String userId) {
         if (username == null || userId == null) {
             hideInfoOnProfile();
-        }else{
+        } else {
             showInfoOnProfile();
             tvUsername.setText("Hi, " + username);
             prefEditor.putString("username", username);
