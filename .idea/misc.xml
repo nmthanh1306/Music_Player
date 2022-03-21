@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/drawable-anydpi/ic_action_playlist_added.xml" value="0.15416666666666667" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/drawable/custom_background_banner.xml" value="0.23703703703703705" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/drawable/custom_background_button_black.xml" value="0.26205128205128203" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/drawable/custom_background_song_player.xml" value="0.2" />
@@ -35,9 +36,12 @@
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_my_playlist.xml" value="0.11145833333333334" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_playlist.xml" value="0.176" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_search.xml" value="0.2" />
-        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_song_player.xml" value="0.25" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/line_song_player.xml" value="0.12" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/style_login.xml" value="0.189873417721519" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/style_my_playlist.xml" value="0.25" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/style_register.xml" value="0.2" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/layout/style_rename_playlist.xml" value="0.14427083333333332" />
+        <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/menu/menu_context_item_playlist.xml" value="0.25" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music Player App/Music_Player/app/src/main/res/menu/search_view.xml" value="0.2" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music_Player/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/HOC TAP/7. SP22/PRM391/Music_Player/app/src/main/res/layout/fragment_home.xml" value="0.25" />
