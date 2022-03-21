@@ -1,13 +1,18 @@
 package com.is1423.music_player.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,11 +20,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.is1423.music_player.R;
-import com.is1423.music_player.activity.ListSongActivity;
 import com.is1423.music_player.activity.SongPlayerActivity;
+import com.is1423.music_player.model.request.PlaylistRequestDTO;
+import com.is1423.music_player.model.response.PlaylistResponseDTO;
 import com.is1423.music_player.model.response.SongResponseDTO;
 import com.is1423.music_player.service.DataServiceMyFavouriteSong;
+import com.is1423.music_player.service.DataServicePlaylist;
+import com.is1423.music_player.service.DataServiceSong;
 import com.is1423.music_player.service.intagration.ApiServiceMyFavouriteSong;
+import com.is1423.music_player.service.intagration.ApiServicePlaylist;
+import com.is1423.music_player.service.intagration.ApiServiceSong;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +51,7 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ViewHo
         this.context = context;
         this.listSong = listSong;
     }
+
 
     @NonNull
     @Override
@@ -78,13 +89,173 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ViewHo
         private ImageView ivFavouriteInListSong;
         private ImageView ivAddToMyPlaylist;
 
+        private ImageView btnAdd;
+        private TextView tvMyPlaylistTitle;
+        private Spinner spinnerPlaylistName;
+        private EditText edtPlaylistName;
+        private Button btnConfirmAddPlaylist;
+        private List<PlaylistResponseDTO> playlists;
+        private PlaylistResponseDTO responsePlaylist;
+        private PlaylistRequestDTO playlistRequest;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             bindingView(itemView);
             bindingAction(itemView);
         }
 
-        private void fetchData() {
+        private void bindingAction(View itemView) {
+
+            ivFavouriteInListSong.setOnClickListener(this::onClickFavourite);
+            itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(context, SongPlayerActivity.class);
+                intent.putExtra("song", listSong.get(getPosition()));
+                context.startActivity(intent);
+            });
+
+            ivAddToMyPlaylist.setOnClickListener(this::onClickBtnAddToPlaylist);
+        }
+
+        private void onClickBtnAddToPlaylist(View view) {
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.style_my_playlist);
+
+            btnAdd = dialog.findViewById(R.id.btnAdd);
+            tvMyPlaylistTitle = dialog.findViewById(R.id.tvMyPlaylistTitle);
+            spinnerPlaylistName = dialog.findViewById(R.id.spinnerPlaylistName);
+            edtPlaylistName = dialog.findViewById(R.id.edtPlaylistName);
+            btnConfirmAddPlaylist = dialog.findViewById(R.id.btnConfirmAddPlaylist);
+            fetchDataPlaylistToSpanner();
+            eventClickCloseDialogButton(dialog);
+            eventClickAddNewPlaylist(dialog);
+            eventClickConfirmAddPlaylist(dialog);
+        }
+
+        private void eventClickConfirmAddPlaylist(Dialog dialog) {
+            playlistRequest = new PlaylistRequestDTO();
+            btnConfirmAddPlaylist.setOnClickListener(view -> {
+
+                if (spinnerPlaylistName.isShown()) {
+                    PlaylistResponseDTO playlistSpanner = (PlaylistResponseDTO) spinnerPlaylistName.getSelectedItem();
+                    playlistRequest.setPlaylistId(playlistSpanner.getPlaylistId());
+                    playlistRequest.setPlaylistName(playlistSpanner.getPlaylistName());
+                    playlistRequest.setPlaylistImage(listSong.get(getLayoutPosition()).getSongImage());
+                    updateImagePlaylist(playlistRequest);
+                    addSongToPlaylist(listSong.get(getLayoutPosition()).getSongId(),
+                            playlistSpanner.getPlaylistId(), userId, playlistSpanner.getPlaylistName(), dialog);
+                } else { //create new playlist
+                    String sPlaylistName = edtPlaylistName.getText().toString();
+                    if (sPlaylistName.isEmpty()) {
+                        Toast.makeText(context, "Vui lòng nhập tên playlist", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    playlistRequest.setPlaylistName(sPlaylistName);
+                    playlistRequest.setPlaylistImage(listSong.get(getLayoutPosition()).getSongImage());
+                    createNewPlaylist(playlistRequest, userId, dialog);
+                }
+
+            });
+        }
+
+        private void updateImagePlaylist(PlaylistRequestDTO request) {
+            DataServicePlaylist servicePlaylist = ApiServicePlaylist.getService();
+            Call<PlaylistResponseDTO> callback = servicePlaylist.updateMyPlaylist(request, userId);
+            callback.enqueue(new Callback<PlaylistResponseDTO>() {
+                @Override
+                public void onResponse(Call<PlaylistResponseDTO> call, Response<PlaylistResponseDTO> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<PlaylistResponseDTO> call, Throwable t) {
+
+                }
+            });
+        }
+
+        private void createNewPlaylist(PlaylistRequestDTO requestDTO, String userId, Dialog dialog) {
+            DataServicePlaylist dataServicePlaylist = ApiServicePlaylist.getService();
+            Call<PlaylistResponseDTO> callBack = dataServicePlaylist.createMyPlaylist(requestDTO, userId);
+            callBack.enqueue(new Callback<PlaylistResponseDTO>() {
+                @Override
+                public void onResponse(Call<PlaylistResponseDTO> call, Response<PlaylistResponseDTO> response) {
+                    if (response.code() == 200) {
+                        responsePlaylist = response.body();
+                        addSongToPlaylist(listSong.get(getLayoutPosition()).getSongId(),
+                                responsePlaylist.getPlaylistId(), userId, responsePlaylist.getPlaylistName(), dialog);
+                    }
+                    if (response.code() == 400) {
+                        Toast.makeText(context, "Playlist " +
+                                requestDTO.getPlaylistName() + " đã tồn tại", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PlaylistResponseDTO> call, Throwable t) {
+
+                }
+            });
+        }
+
+        private void addSongToPlaylist(Long songId, Long playlistId, String userId, String playlistName, Dialog dialog) {
+            DataServiceSong serviceSong = ApiServiceSong.getService();
+            Call<Void> callBack = serviceSong.addSongToPlaylist(songId, playlistId, userId);
+            callBack.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(context, "Đã thêm vào playlist: " +
+                                playlistName, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                    if (response.code() == 400) {
+                        Toast.makeText(context, "Bài hát đã tồn tại trong playlist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+        }
+
+        private void eventClickCloseDialogButton(Dialog dialog) {
+            ImageView ivClose = dialog.findViewById(R.id.btnClose);
+            ivClose.setOnClickListener(view -> dialog.dismiss());
+            dialog.show();
+        }
+
+        private void eventClickAddNewPlaylist(Dialog dialog) {
+            btnAdd.setOnClickListener(view -> {
+                tvMyPlaylistTitle.setVisibility(View.VISIBLE);
+                tvMyPlaylistTitle.setText("Thêm playlist mới");
+                spinnerPlaylistName.setVisibility(View.GONE);
+                edtPlaylistName.setVisibility(View.VISIBLE);
+            });
+        }
+
+        private void fetchDataPlaylistToSpanner() {
+            DataServicePlaylist dataServicePlaylist = ApiServicePlaylist.getService();
+
+            Call<List<PlaylistResponseDTO>> callBack = dataServicePlaylist.getAllPlaylists(userId);
+            callBack.enqueue(new Callback<List<PlaylistResponseDTO>>() {
+                @Override
+                public void onResponse(Call<List<PlaylistResponseDTO>> call, Response<List<PlaylistResponseDTO>> response) {
+                    playlists = response.body();
+                    ArrayAdapter playlistAdapter = new ArrayAdapter(
+                            context, R.layout.support_simple_spinner_dropdown_item, playlists);
+                    spinnerPlaylistName.setAdapter(playlistAdapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<PlaylistResponseDTO>> call, Throwable t) {
+
+                }
+            });
+        }
+
+        private void onClickFavourite(View view) {
             DataServiceMyFavouriteSong serviceSong = ApiServiceMyFavouriteSong.getService();
             Call<Map<String, Boolean>> callBack = serviceSong.updateNumberOfFavourite(
                     listSong.get(getLayoutPosition()).getSongId(), userId);
@@ -103,9 +274,6 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ViewHo
                                     ivFavouriteInListSong.setImageResource(R.drawable.iconloved);
                                 } else {
                                     ivFavouriteInListSong.setImageResource(R.drawable.iconlove);
-//                                    listSong.remove(getLayoutPosition());
-//                                    notifyItemRemoved(getLayoutPosition());
-//                                    notifyItemRangeChanged(getLayoutPosition(),listSong.size());
                                 }
                             }
                         }
@@ -119,18 +287,6 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ViewHo
                 public void onFailure(Call<Map<String, Boolean>> call, Throwable t) {
 
                 }
-            });
-        }
-
-        private void bindingAction(View itemView) {
-
-            ivFavouriteInListSong.setOnClickListener(view -> {
-                fetchData();
-            });
-            itemView.setOnClickListener(view -> {
-                Intent intent = new Intent(context, SongPlayerActivity.class);
-                intent.putExtra("song", listSong.get(getPosition()));
-                context.startActivity(intent);
             });
         }
 

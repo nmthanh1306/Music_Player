@@ -1,7 +1,9 @@
 package com.is1423.music_player.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,23 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AllPlaylistAdapter extends RecyclerView.Adapter<AllPlaylistAdapter.ViewHolder>{
-
+public class MyAllPlaylistAdapter extends RecyclerView.Adapter<MyAllPlaylistAdapter.ViewHolder>{
+    private int position;
     private Context context;
     private List<PlaylistResponseDTO> playlistResponseDTOS;
 
-    public AllPlaylistAdapter(Context context, List<PlaylistResponseDTO> playlistResponseDTOS) {
+
+    public MyAllPlaylistAdapter(Context context, List<PlaylistResponseDTO> playlistResponseDTOS) {
         this.context = context;
         this.playlistResponseDTOS = playlistResponseDTOS;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     @NonNull
@@ -41,6 +52,10 @@ public class AllPlaylistAdapter extends RecyclerView.Adapter<AllPlaylistAdapter.
         PlaylistResponseDTO playlist = playlistResponseDTOS.get(position);
         Picasso.with(context).load(playlist.getPlaylistImage()).into(holder.ivAllPlaylist);
         holder.tvAllPlaylist.setText(playlist.getPlaylistName());
+        holder.itemView.setOnLongClickListener(v -> {
+            setPosition(holder.getPosition());
+            return false;
+        });
     }
 
     @Override
@@ -49,7 +64,7 @@ public class AllPlaylistAdapter extends RecyclerView.Adapter<AllPlaylistAdapter.
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         private ImageView ivAllPlaylist;
         private TextView tvAllPlaylist;
@@ -63,11 +78,20 @@ public class AllPlaylistAdapter extends RecyclerView.Adapter<AllPlaylistAdapter.
         }
 
         private void bindingAction(View itemView) {
-            itemView.setOnClickListener(view -> {
-                Intent intent = new Intent(context, ListSongActivity.class);
-                intent.putExtra("itemPlaylist",playlistResponseDTOS.get(getPosition()));
-                context.startActivity(intent);
-            });
+            itemView.setOnClickListener(this::onClickItemPlaylist);
+            itemView.setOnCreateContextMenuListener(this::onCreateContextMenu);
+        }
+
+        private void onClickItemPlaylist(View view) {
+            Intent intent = new Intent(context, ListSongActivity.class);
+            intent.putExtra("MyItemPlaylist", playlistResponseDTOS.get(getPosition()));
+            context.startActivity(intent);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            ((Activity)context).getMenuInflater().inflate(R.menu.menu_context_item_playlist, contextMenu);
         }
     }
+
 }

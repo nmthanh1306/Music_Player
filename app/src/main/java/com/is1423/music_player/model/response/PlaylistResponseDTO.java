@@ -11,11 +11,16 @@ public class PlaylistResponseDTO implements Serializable {
 
     private Long playlistId;
 
-    private String playListName;
+    private String playlistName;
 
     private String playlistImage;
 
     private String playlistIcon;
 
     private Long userId;
+
+    @Override
+    public String toString() {
+        return this.playlistName;
+    }
 }

@@ -120,7 +120,7 @@ public class ThemeAndTypeFragment extends Fragment {
 
                     LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(580, 250);
                     layout.setMargins(10, 20, 10, 30);
-                    if (themeDTOs != null) {
+                    if (themeDTOs != null && typeDTOs != null) {
                         for (int i = 0; i < themeDTOs.size(); i++) {
                             CardView cardView = new CardView(getActivity());
                             cardView.setRadius(10);
@@ -139,9 +139,7 @@ public class ThemeAndTypeFragment extends Fragment {
                                 startActivity(intent);
                             });
                         }
-                    }
 
-                    if (typeDTOs != null) {
                         for (int j = 0; j < typeDTOs.size(); j++) {
                             CardView cardView = new CardView(getActivity());
                             cardView.setRadius(10);
@@ -160,8 +158,8 @@ public class ThemeAndTypeFragment extends Fragment {
                                 startActivity(intent);
                             });
                         }
+                        horizontalScrollView.addView(linearLayout);
                     }
-                    horizontalScrollView.addView(linearLayout);
                 }
             }
 
@@ -179,8 +177,9 @@ public class ThemeAndTypeFragment extends Fragment {
         callBackType.enqueue(new Callback<List<TypeResponseDTO>>() {
             @Override
             public void onResponse(Call<List<TypeResponseDTO>> call, Response<List<TypeResponseDTO>> response) {
-
-                typeDTOs = response.body();
+                if (response.code() == 200) {
+                    typeDTOs = response.body();
+                }
             }
 
             @Override

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="350dp"
+    android:layout_gravity="center"
+
+    android:background="@drawable/custom_popup"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_action_close" />
+
+    <ImageView
+        android:id="@+id/btnAdd"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/design_default_color_primary"
+        android:src="@drawable/ic_action_add" />
+
+    <TextView
+        android:layout_toRightOf="@id/btnAdd"
+        android:text=" Tạo mới playlist"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvMyPlaylistTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Thêm vào playlist:"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+
+    <Spinner
+        android:id="@+id/spinnerPlaylistName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMyPlaylistTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+
+    <EditText
+        android:id="@+id/edtPlaylistName"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/spinnerPlaylistName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="#bdc3c7"
+        android:hint="Tên playlist"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnConfirmAddPlaylist"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/edtPlaylistName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/custom_background_button_black"
+        android:text="Xác nhận"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>

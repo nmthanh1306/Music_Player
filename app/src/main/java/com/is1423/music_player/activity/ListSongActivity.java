@@ -18,12 +18,15 @@ import android.os.Parcelable;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.is1423.music_player.R;
 import com.is1423.music_player.adapter.ListSongAdapter;
+import com.is1423.music_player.adapter.ListSongMyPlaylistAdapter;
 import com.is1423.music_player.adapter.MyFavouriteSongAdapter;
+import com.is1423.music_player.model.request.PlaylistRequestDTO;
 import com.is1423.music_player.model.response.AdvertisementResponseDTO;
 import com.is1423.music_player.model.response.AlbumResponseDTO;
 import com.is1423.music_player.model.response.MyFavouriteSongResponseDTO;
@@ -31,8 +34,10 @@ import com.is1423.music_player.model.response.PlaylistResponseDTO;
 import com.is1423.music_player.model.response.SongResponseDTO;
 import com.is1423.music_player.model.response.TypeResponseDTO;
 import com.is1423.music_player.service.DataServiceAdvertisement;
+import com.is1423.music_player.service.DataServicePlaylist;
 import com.is1423.music_player.service.DataServiceSong;
 import com.is1423.music_player.service.intagration.ApiServiceAdvertisement;
+import com.is1423.music_player.service.intagration.ApiServicePlaylist;
 import com.is1423.music_player.service.intagration.ApiServiceSong;
 import com.squareup.picasso.Picasso;
 
@@ -56,11 +61,12 @@ public class ListSongActivity extends AppCompatActivity {
     private ImageView ivListSong;
     private ListSongAdapter adapter;
     private MyFavouriteSongAdapter myFavouriteSongAdapter;
+    private ListSongMyPlaylistAdapter listSongMyPlaylistAdapter;
     List<SongResponseDTO> songs;
     PlaylistResponseDTO playlist;
+    PlaylistResponseDTO myPlaylist;
     TypeResponseDTO type;
     AlbumResponseDTO album;
-    MyFavouriteSongResponseDTO myFavouriteSongResponseDTO;
 
     private SharedPreferences sharedPreferences;
     private String userIdFromSharedPref;
@@ -79,8 +85,8 @@ public class ListSongActivity extends AppCompatActivity {
             setValueInView(advertisement.getSongName(), advertisement.getSongImage());
             fetchDataAds(advertisement.getAdvertisementId());
         }
-        if (playlist != null && !playlist.getPlayListName().equals("")) {
-            setValueInView(playlist.getPlayListName(), playlist.getPlaylistImage());
+        if (playlist != null && !playlist.getPlaylistName().equals("")) {
+            setValueInView(playlist.getPlaylistName(), playlist.getPlaylistImage());
             fetchDataPlaylist(playlist.getPlaylistId(), userIdFromSharedPref);
         }
         if (type != null && !type.getTypeName().equals("")) {
@@ -94,8 +100,58 @@ public class ListSongActivity extends AppCompatActivity {
         if (userIdFromIntent != null && !userIdFromIntent.equals("")) {
             fetchDataMyFavouriteSong(userIdFromIntent);
         }
+        if (myPlaylist != null && !myPlaylist.getPlaylistName().equals("")) {
+            fetchDataMyPlaylist(myPlaylist.getPlaylistId(), userIdFromSharedPref);
+        }
 
     }
+
+    private void fetchDataMyPlaylist(Long playlistId, String userId) {
+        DataServiceSong dataServicePlaylist = ApiServiceSong.getService();
+//        String userIdFromSharedPref = sharedPreferences.getString("userIdFromSharedPref", null);
+        Call<List<SongResponseDTO>> callBack = dataServicePlaylist.getSongsByPlaylistId(playlistId, userId);
+        callBack.enqueue(new Callback<List<SongResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<SongResponseDTO>> call, Response<List<SongResponseDTO>> response) {
+                songs = response.body();
+                if (songs.size() > 0) {
+                    setValueInView(myPlaylist.getPlaylistName(), songs.get(0).getSongImage());
+                    PlaylistRequestDTO requestPlaylist = new PlaylistRequestDTO();
+                    requestPlaylist.setPlaylistId(myPlaylist.getPlaylistId());
+                    requestPlaylist.setPlaylistName(myPlaylist.getPlaylistName());
+                    requestPlaylist.setPlaylistImage(songs.get(0).getSongImage());
+                    updateImagePlaylist(requestPlaylist, userId);
+                    listSongMyPlaylistAdapter = new ListSongMyPlaylistAdapter(ListSongActivity.this, songs, myPlaylist);
+                    recyclerViewListSong.setLayoutManager(new LinearLayoutManager(ListSongActivity.this));
+                    recyclerViewListSong.setAdapter(listSongMyPlaylistAdapter);
+                    eventClickButtonPlayAll();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SongResponseDTO>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void updateImagePlaylist(PlaylistRequestDTO request, String userId) {
+        DataServicePlaylist servicePlaylist = ApiServicePlaylist.getService();
+        Call<PlaylistResponseDTO> callback = servicePlaylist.updateMyPlaylist(request, userId);
+        callback.enqueue(new Callback<PlaylistResponseDTO>() {
+            @Override
+            public void onResponse(Call<PlaylistResponseDTO> call, Response<PlaylistResponseDTO> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<PlaylistResponseDTO> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     private void fetchDataMyFavouriteSong(String userId) {
         DataServiceSong serviceSong = ApiServiceSong.getService();
@@ -173,6 +229,7 @@ public class ListSongActivity extends AppCompatActivity {
                 songs = response.body();
                 if (songs.size() > 0) {
                     adapter = new ListSongAdapter(ListSongActivity.this, songs);
+
                     recyclerViewListSong.setLayoutManager(new LinearLayoutManager(ListSongActivity.this));
                     recyclerViewListSong.setAdapter(adapter);
                     eventClickButtonPlayAll();
@@ -184,12 +241,11 @@ public class ListSongActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void fetchDataAds(Long advertisementId) {
         DataServiceAdvertisement dataService = ApiServiceAdvertisement.getService();
-        String userId = sharedPreferences.getString("userIdFromSharedPref", null);
+        //String userId = sharedPreferences.getString("userId", null);
         Call<SongResponseDTO> callBack = dataService.getSongByAdsId(advertisementId);
         callBack.enqueue(new Callback<SongResponseDTO>() {
             @Override
@@ -229,7 +285,7 @@ public class ListSongActivity extends AppCompatActivity {
 
     private void bindingView() {
         sharedPreferences = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        userIdFromSharedPref = sharedPreferences.getString("userIdFromSharedPref", null);
+        userIdFromSharedPref = sharedPreferences.getString("userId", null);
 
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbar);
@@ -265,6 +321,9 @@ public class ListSongActivity extends AppCompatActivity {
             }
             if (intent.hasExtra("myFavouriteSong")) {
                 userIdFromIntent = intent.getStringExtra("myFavouriteSong");
+            }
+            if (intent.hasExtra("MyItemPlaylist")) {
+                myPlaylist = (PlaylistResponseDTO) intent.getSerializableExtra("MyItemPlaylist");
             }
 
         }

@@ -11,18 +11,27 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.is1423.music_player.R;
+import com.is1423.music_player.activity.AllPlaylistActivity;
 import com.is1423.music_player.activity.ListSongActivity;
 import com.is1423.music_player.model.request.UserRequestDTO;
+import com.is1423.music_player.model.response.PlaylistResponseDTO;
 import com.is1423.music_player.model.response.UserResponseDTO;
+import com.is1423.music_player.service.DataServicePlaylist;
 import com.is1423.music_player.service.DataServiceUser;
+import com.is1423.music_player.service.intagration.ApiServicePlaylist;
 import com.is1423.music_player.service.intagration.ApiServiceUser;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +61,7 @@ public class UserFragment extends Fragment {
     private Button btnLoginPopup;
     private EditText edtRePassword;
     private Button btnRegisterPopup;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -118,6 +128,9 @@ public class UserFragment extends Fragment {
     }
 
     private void onClickTextMyPlaylist(View view) {
+        Intent intent = new Intent(getActivity(), AllPlaylistActivity.class);
+        intent.putExtra("MyAllPlaylist", "");
+        startActivity(intent);
     }
 
     private void onClickBtnLogout(View view) {
@@ -187,7 +200,7 @@ public class UserFragment extends Fragment {
         edtRePassword = dialog.findViewById(R.id.edtRePassword);
         btnRegisterPopup = dialog.findViewById(R.id.btnRegisterPopup);
         onClickBtnRegisterPopup(dialog);
-        onClickCloseDialogButton(dialog);
+        eventClickCloseDialogButton(dialog);
     }
 
     private void onClickBtnLogin(View view) {
@@ -197,7 +210,7 @@ public class UserFragment extends Fragment {
         edtPassword = dialog.findViewById(R.id.edtPassword);
         btnLoginPopup = dialog.findViewById(R.id.btnLoginPopup);
         onClickBtnLoginPopup(dialog);
-        onClickCloseDialogButton(dialog);
+        eventClickCloseDialogButton(dialog);
     }
 
     private void onClickBtnLoginPopup(Dialog dialog) {
@@ -237,7 +250,7 @@ public class UserFragment extends Fragment {
         });
     }
 
-    private void onClickCloseDialogButton(Dialog dialog) {
+    private void eventClickCloseDialogButton(Dialog dialog) {
         ImageView ivClose = dialog.findViewById(R.id.btnClose);
         ivClose.setOnClickListener(view -> dialog.dismiss());
         dialog.show();

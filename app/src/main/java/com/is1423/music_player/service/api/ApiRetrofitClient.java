@@ -17,7 +17,7 @@ public class ApiRetrofitClient {
 
     public static Retrofit getClient(String baseUrl) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)

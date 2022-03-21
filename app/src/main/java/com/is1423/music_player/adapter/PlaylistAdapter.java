@@ -51,7 +51,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistResponseDTO> {
         PlaylistResponseDTO responseDTO = getItem(position);
         Picasso.with(getContext()).load(responseDTO.getPlaylistImage()).into(viewHolder.ivBackgroundPlaylist);
         Picasso.with(getContext()).load(responseDTO.getPlaylistIcon()).into(viewHolder.ivPlaylist);
-        viewHolder.tvPlaylistName.setText(responseDTO.getPlayListName());
+        viewHolder.tvPlaylistName.setText(responseDTO.getPlaylistName());
         return convertView;
     }
 }

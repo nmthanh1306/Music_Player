@@ -97,6 +97,7 @@ public class PlaylistFragment extends Fragment {
     private void bindingAction() {
         tvViewMorePlaylist.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), AllPlaylistActivity.class);
+            intent.putExtra("AppAllPlaylist","");
             startActivity(intent);
         });
     }

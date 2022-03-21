@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/context_rename"
+        android:title="Rename"
+        android:orderInCategory="10"/> <!--hien thi truoc-->
+    <item
+        android:id="@+id/context_delete"
+        android:title="Delete"
+        android:orderInCategory="20"/>
+</menu>

@@ -101,23 +101,25 @@ public class BannerFragment extends Fragment {
         callBack.enqueue(new Callback<List<AdvertisementResponseDTO>>() {
             @Override
             public void onResponse(Call<List<AdvertisementResponseDTO>> call, Response<List<AdvertisementResponseDTO>> response) {
-                List<AdvertisementResponseDTO> ads = response.body();
-                Log.d("BannerFragment", "=================Is Running==================");
-                bannerAdapter = new BannerAdapter(getActivity(), ads);
-                viewPager.setAdapter(bannerAdapter);
-                circleIndicator.setViewPager(viewPager);
+                if (response.code() == 200) {
+                    List<AdvertisementResponseDTO> ads = response.body();
+                    Log.d("BannerFragment", "=================Is Running==================");
+                    bannerAdapter = new BannerAdapter(getActivity(), ads);
+                    viewPager.setAdapter(bannerAdapter);
+                    circleIndicator.setViewPager(viewPager);
 
-                handler = new Handler();
-                runnable = () -> {
-                    currentItem = viewPager.getCurrentItem();
-                    currentItem++;
-                    if(currentItem >= Objects.requireNonNull(viewPager.getAdapter()).getCount()){
-                        currentItem = 0;
-                    }
-                    viewPager.setCurrentItem(currentItem,true);
-                    handler.postDelayed(runnable,5000);
-                };
-                handler.postDelayed(runnable,5000);
+                    handler = new Handler();
+                    runnable = () -> {
+                        currentItem = viewPager.getCurrentItem();
+                        currentItem++;
+                        if (currentItem >= Objects.requireNonNull(viewPager.getAdapter()).getCount()) {
+                            currentItem = 0;
+                        }
+                        viewPager.setCurrentItem(currentItem, true);
+                        handler.postDelayed(runnable, 5000);
+                    };
+                    handler.postDelayed(runnable, 5000);
+                }
             }
 
 
